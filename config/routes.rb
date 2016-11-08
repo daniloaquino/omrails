@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  
+ActiveAdmin.routes(self)
+  devise_for :users
+  as :user do
+    get "signin", to: 'devise/sessions#new'
+    delete "signout", to: 'devise/sessions#destroy'
+    get "signup", to: 'devise/registrations#new'
+  end
+
   get 'feed', to: 'feed#show'
   get 'users/:username', to: 'users#show', as: 'user'
 
@@ -11,14 +20,7 @@ Rails.application.routes.draw do
   resources :items
   resources :links
   resources :tweets
-  ActiveAdmin.routes(self)
-  devise_for :users
-  as :user do
-  	get "signin", to: 'devise/sessions#new'
-  	delete "signout", to: 'devise/sessions#destroy'
-  	get "signup", to: 'devise/registrations#new'
-  end
-
+  
   root 'pages#home'
   get 'about', to: 'pages#about'
   get 'contact_us', to: 'pages#contact_us'
